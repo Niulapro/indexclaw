@@ -1,84 +1,206 @@
-﻿<!-- made by @alcoolique & edited by @niula85 -->
-<!-- snow.js @ https://codepen.io/massiebn/pen/OJMbXz -->
-<!-- built onto https://wya.lol/$ by @niula85 -->
-<!-- changes: added new view counter, fixed and added new container for badges, snow effect, real time discord profile tracker, new svg icons with rewritten css, typewriter effect on bio, fixed css errors + added sound off button to main container-->
-<!-- dm @jaweedlentered on discord for src if interested. all template credits to @alcoolique taken from wya.lol -->
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>𝕹𝖎𝖚𝖑𝖆𝟖𝟓</title>
-    <meta name="theme-color" content="#000001">
-    <link rel="stylesheet" href="public/users/css/cat.css">
-    <link rel="icon" href="public/src/img/1281904753252765717.png" type="image/x-icon">
-    <link rel="shortcut icon" href="public/src/img/1281904753252765717.png" type="image/x-icon"> 
-    <meta content="𝕹𝖎𝖚𝖑𝖆𝟖𝟓" property="og:title">
-    <meta content="http://niula.us" property="og:url">
-    <meta content="https://api.lanyard.rest/1059122727681802301.png" property="og:image">
-    <meta content="#000001" data-react-helmet="true" name="theme-color">
-</head>
-<script src="snow.js"></script>
-<script src="effects.js"></script>
-<script src="effects2.js"></script>
-<script src="view.js"></script>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacked By Niula85</title>
+    <link href="css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff0000;
+            --glow: rgba(255, 0, 0, 0.7);
+        }
 
-    <div id="overlay">
-        <button class="overlaybtn" onclick="removeOverlay()">𝕹𝖎𝖚𝖑𝖆𝟖𝟓</button>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: crosshair;
+        }
+
+        /* 
+           K
+        */
+        body, html {
+            height: 100%;
+            width: 100%;
+            background-color: #000;
+            overflow: hidden;
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+        }
+
+        /* VİDEO: Z-INDEX 1 (En Alt Katman, Siyah Arka Planın Üstü) */
+        .video-container {
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: 1; 
+            overflow: hidden;
+            pointer-events: none; /* Tıklamaları engelle ki YouTube'a gitmesin */
+        }
+
+        .video-container iframe {
+            width: 100vw; 
+            height: 100vh; 
+            border: none;
+            /* iframe'in de hiçbir etkileşim almaması için: */
+            pointer-events: none;
+        }
+
+        /* KARANLIK FİLTRE: Z-INDEX 2 (Videonun üstüne hafif gölge sağlar) */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 2; 
+        }
+
+        /* SCANLINE EFEKTİ: Z-INDEX 3 */
+        .scanline-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 2px;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* İÇERİK: Z-INDEX 10 (En Üst Katman, Yazılar ve Butonlar) */
+        main {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 10; 
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 15px;
+            color: var(--primary);
+            text-shadow: 0 0 30px var(--glow);
+            margin-bottom: 25px;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .staff-info {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--primary);
+            padding: 20px 50px;
+            box-shadow: 0 0 25px var(--glow);
+            margin-bottom: 30px;
+            backdrop-filter: blur(5px);
+        }
+
+        .staff-info p {
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            margin: 5px 0;
+        }
+
+        .staff-info strong {
+            color: var(--primary);
+        }
+
+        .quote-text {
+            max-width: 800px;
+            font-size: 1.1rem;
+            color: #ccc;
+            border-left: 5px solid var(--primary);
+            padding-left: 20px;
+            margin-bottom: 40px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+        }
+
+        .social-btn {
+            font-size: 1.2rem;
+            color: #fff;
+            text-decoration: none;
+            background: #5865F2;
+            padding: 15px 40px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+            box-shadow: 0 0 20px rgba(88, 101, 242, 0.5);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 40px #5865F2;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); text-shadow: 0 0 20px var(--glow); }
+            50% { transform: scale(1.02); text-shadow: 0 0 40px var(--primary); }
+            100% { transform: scale(1); text-shadow: 0 0 20px var(--glow); }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="scanline-effect"></div>
+    
+    <div class="video-container">
+      <video id="bg-video" autoplay="" muted="" loop="" playsinline="" style="width: 100vw; height: 100vh; object-fit: cover;">
+        <source src="video.mp4" type="video/mp4">
+      </video>
     </div>
 
-    <div id="user-page">
+    <!-- Karanlık Gölge Katmanı (Z-Index: 2) -->
+    <div class="overlay"></div>
 
-        <img class="background" src="site/3131.png" draggable="false" style="object-fit: cover;">
+    <!-- Ana İçerik Katmanı (Z-Index: 10) -->
+    <main>
+        <h1>HACKED BY NİULA85 HAZRETLERİ</h1>
 
-        <div class="main-container" id="mainDiv">
-
-            <div class="profile-container">
-                <img class="pp" src="site/pp.png" draggable="false">
-                <p class="username breathing" data-tooltip="uid: 1">𝕹𝖎𝖚𝖑𝖆𝟖𝟓</p>
-
-                <div class="badges-container">
-                    <div class="badges pic-badge" id="prem" data-tooltip="Premium Üye" style="background-image: url('public/src/badges/premium.png');"></div>
-                    <div class="badges pic-badge" id="own" data-tooltip="Site Sahibi" style="background-image: url('public/src/badges/booster.png');" bis_skin_checked="1"></div>
-                    <div class="badges pic-badge" id="early " data-tooltip="Eski Üye" style="background-image: url('public/src/badges/early.png');"></div>
-                </div>
-
-                <div class="bio-container">
-                    <div class="bio typewriter"></div>
-                </div>
-                <div class="pre-container">
-                    <div class="pre">
-                        <div class="cropped">
-                            <img draggable="false" id="rpc">
-                        </div>
-                    </div>
-                </div>
-                <div class="links-container" id="linksDiv">
-                    <div class="logo btc" id="btc" onclick="copyAddress('btc')">                
-<svg viewBox="0 0 24 24" title="niula8585" id="btcInput" class="links" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M18.59 5.88997C17.36 5.31997 16.05 4.89997 14.67 4.65997C14.5 4.95997 14.3 5.36997 14.17 5.69997C12.71 5.47997 11.26 5.47997 9.83001 5.69997C9.69001 5.36997 9.49001 4.95997 9.32001 4.65997C7.94001 4.89997 6.63001 5.31997 5.40001 5.88997C2.92001 9.62997 2.25001 13.28 2.58001 16.87C4.23001 18.1 5.82001 18.84 7.39001 19.33C7.78001 18.8 8.12001 18.23 8.42001 17.64C7.85001 17.43 7.31001 17.16 6.80001 16.85C6.94001 16.75 7.07001 16.64 7.20001 16.54C10.33 18 13.72 18 16.81 16.54C16.94 16.65 17.07 16.75 17.21 16.85C16.7 17.16 16.15 17.42 15.59 17.64C15.89 18.23 16.23 18.8 16.62 19.33C18.19 18.84 19.79 18.1 21.43 16.87C21.82 12.7 20.76 9.08997 18.61 5.88997H18.59ZM8.84001 14.67C7.90001 14.67 7.13001 13.8 7.13001 12.73C7.13001 11.66 7.88001 10.79 8.84001 10.79C9.80001 10.79 10.56 11.66 10.55 12.73C10.55 13.79 9.80001 14.67 8.84001 14.67ZM15.15 14.67C14.21 14.67 13.44 13.8 13.44 12.73C13.44 11.66 14.19 10.79 15.15 10.79C16.11 10.79 16.87 11.66 16.86 12.73C16.86 13.79 16.11 14.67 15.15 14.67Z" fill="#5865f2"></path> </g></svg>
-                    </div>
-                </div>
-
-                <div class="linksline"></div>
-
-                <div class="views-container">
-                    <svg viewbox="0 0 24 24" width="25" height="25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0" style="margin-bottom: -3px;"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M3 14C3 9.02944 7.02944 5 12 5C16.9706 5 21 9.02944 21 14M17 14C17 16.7614 14.7614 19 12 19C9.23858 19 7 16.7614 7 14C7 11.2386 9.23858 9 12 9C14.7614 9 17 11.2386 17 14Z" stroke="#c18be0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-                    <span id="view-count">DENK YOK </span>
-                </div>
-            </div>
-
-        <div class="mutebutton">
-            <p id="mutetext" onclick="toggleMusic()">Şarkı açık</p>
+        <div class="staff-info">
+            <p>KURUCU: <strong>Niula85</strong></p>
+            <p>ADMIN: <strong>Leux</strong></p>
         </div>
 
+        <div class="quote-text">
+            "Türkler Gelir Bırakmaz Savaş Başlatırlar Bırakmazlar...<br>
+            Gökyüzü Çadırımız, Güneş Bayrağımız Olsun!"
+        </div>
+
+        <a href="https://discord.gg/zdP5fsqQ" target="_blank" class="social-btn">
+            DISCORD İLETİŞİM
+        </a>
+    </main>
+
+    <div id="click-to-play" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.85); cursor: pointer;">
+        <h2 style="color: var(--primary); text-shadow: 0 0 30px var(--glow); letter-spacing: 5px; font-size: 2rem; animation: pulse 1s infinite alternate;">[ SİSTEME GİRMEK VE SESİ AÇMAK İÇİN TIKLA ]</h2>
     </div>
 
-    <audio id="backgroundsong" src="site/music.mp3" loop=""></audio>
+    <script>
+        const clickScreen = document.getElementById('click-to-play');
+        const video = document.getElementById('bg-video');
 
-</div></body>
+        clickScreen.addEventListener('click', () => {
+            if (video) {
+                video.muted = false; 
+                video.play();       
+            }
+            clickScreen.style.opacity = '0'; // Ekranı yavaşça kaybet
+            setTimeout(() => { clickScreen.style.display = 'none'; }, 500);
+        });
 
+        console.log("404leak - System Locked By Niula85.");
+    </script>
+</body>
 </html>
-
